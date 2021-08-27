@@ -153,22 +153,6 @@ salaries_and_tenures = [(83000, 8.7), (88000, 8.1),
                         (60000, 2.5), (83000, 10),
                         (48000, 1.9), (63000, 4.2)]
 
-
-def plot_salary_graph():
-    from matplotlib import pyplot as plt
-
-    x = [tenure[1] for tenure in salaries_and_tenures]
-    y = [salary[0] for salary in salaries_and_tenures]
-
-    plt.scatter(x, y)
-    plt.title('Salary by Years Experience')
-    plt.xlabel('Years Experience')
-    plt.ylabel('Salary')
-    plt.show()
-
-# plot_salary_graph()
-
-
 salary_by_tenure = defaultdict(list)
 
 # Keys are years, values are lists of salaries
