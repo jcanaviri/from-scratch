@@ -1,4 +1,5 @@
-from collections import Counter, defaultdict  # not loaded by default
+#! python3
+from collections import Counter, defaultdict
 
 
 # List of the data scientists network
@@ -75,8 +76,7 @@ def friend_of_friends(user):
         for friend_id in friendships[user_id]   # for each of my friends
         for foaf_id in friendships[friend_id]   # find their friends
         if foaf_id != user_id                   # who aren't me
-        and foaf_id not in friendships[user_id]  # and not yet my friend
-
+        and foaf_id not in friendships[user_id] # and not yet my friend
     )
 
 
@@ -128,6 +128,7 @@ user_id_by_interest = defaultdict(list)
 for user_id, interest in interests:
     user_id_by_interest[interest].append(user_id)
 
+# Keys are user_ids, values are a list of interests
 interest_by_user_id = defaultdict(list)
 
 for user_id, interest in interests:
@@ -136,11 +137,12 @@ for user_id, interest in interests:
 
 def most_common_interest_with(user):
     return Counter(
-        interested_user_id
-        for interest in interest_by_user_id[user['id']]
-        for interested_user_id in user_id_by_interest[interest]
-        if interested_user_id != user['id']
+        interested_user_id                                      # Get all the ids that has the same interest with
+        for interest in interest_by_user_id[user['id']]         # for each interest that I already have
+        for interested_user_id in user_id_by_interest[interest] # other users with my interests
+        if interested_user_id != user['id']                     # who aren't me
     )
+
 
 assert most_common_interest_with(users[0]) == Counter({9: 3, 1: 2, 8: 1, 5: 1})
 
@@ -150,6 +152,7 @@ salaries_and_tenures = [(83000, 8.7), (88000, 8.1),
                         (69000, 6.5), (76000, 7.5),
                         (60000, 2.5), (83000, 10),
                         (48000, 1.9), (63000, 4.2)]
+
 
 def plot_salary_graph():
     from matplotlib import pyplot as plt
@@ -165,20 +168,18 @@ def plot_salary_graph():
 
 # plot_salary_graph()
 
+
 salary_by_tenure = defaultdict(list)
 
 # Keys are years, values are lists of salaries
 for salary, tenure in salaries_and_tenures:
     salary_by_tenure[tenure].append(salary)
 
-# print(salary_by_tenure)
-
 average_salary_by_tenure = {
     tenure: sum(salaries) / len(salaries)
     for tenure, salaries in salary_by_tenure.items()
 }
 
-# print(average_salary_by_tenure)
 
 def tenure_bucket(tenure):
     if tenure < 2:
@@ -187,6 +188,7 @@ def tenure_bucket(tenure):
         return 'between two and five'
     else:
         return 'more thant five'
+
 
 salary_by_tenure_bucket = defaultdict(list)
 
@@ -199,6 +201,7 @@ average_salary_by_bucket = {
     for tenure_bucket, salaries in salary_by_tenure_bucket.items()
 }
 
+
 def predict_paid_or_unpaid(years_experience):
     if years_experience < 3.0:
         return "paid"
@@ -210,8 +213,8 @@ def predict_paid_or_unpaid(years_experience):
 
 # Working with text
 words_and_counts = Counter(word
-                        for _, interest in interests
-                        for word in interest.lower().split())
+                           for _, interest in interests
+                           for word in interest.lower().split())
 
 for word, count in words_and_counts.most_common():
     if count > 1:
