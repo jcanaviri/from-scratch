@@ -89,3 +89,5 @@ def square_distance(v: Vector, w: Vector) -> float:
 def distance(v: Vector, w: Vector) -> float:
     """Computes the distance between v and w"""
     return magnitude(substract(v, w))
+
+assert distance([5, 3], [1, 1]) == math.sqrt(20)
